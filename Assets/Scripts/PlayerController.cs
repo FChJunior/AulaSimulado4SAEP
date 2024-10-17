@@ -83,8 +83,9 @@ public class PlayerController : MonoBehaviour
             controllerSFX[0].clip = sfx[2]; // Define o clipe de áudio para hit
             controllerSFX[0].Play();          // Toca o efeito sonoro de hit
             HUD.hp -= 1;                       // Reduz a vida do jogador
-            StartCoroutine(Stop());            // Inicia a corrotina de parada temporária
-            StartCoroutine(Invesible());       // Inicia a corrotina de invencibilidade
+            StartCoroutine(Stop());
+            if (HUD.hp > 0)          // Inicia a corrotina de parada temporária
+                StartCoroutine(Invesible());       // Inicia a corrotina de invencibilidade
         }
     }
 
@@ -110,9 +111,9 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < 6; i++)
         {
-            skin.color = Color.black; // Alterna a cor para preto
+            skin.material.color = new Color(1,1,1,0.75f); // Alterna a cor para preto
             yield return new WaitForSeconds(0.25f); // Espera 0.25 segundos
-            skin.color = Color.white; // Alterna a cor para branco
+            skin.material.color = new Color(1,1,1,1f); // Alterna a cor para branco
             yield return new WaitForSeconds(0.25f); // Espera 0.25 segundos
         }
         invesible = false; // Remove a invencibilidade
@@ -213,7 +214,7 @@ public class PlayerController : MonoBehaviour
             controllerSFX[1].Play();          // Toca o efeito sonoro de coleta
             Destroy(other.gameObject);        // Destroi o objeto coletado
         }
-        if(other.gameObject.tag == "Cena2")
+        if (other.gameObject.tag == "Cena2")
         {
             SceneManager.LoadScene("Cena 2"); // Carrega a cena "Cena 2"
         }
